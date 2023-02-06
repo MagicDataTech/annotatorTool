@@ -382,6 +382,10 @@ def main_func(image_dir, oss_path, base_url, is_uposs):
             json_str = json.dumps([c_dic], ensure_ascii=False)
             # print(json_str)
             res_ll.append(json_str + '\n')
+            if file_name not in image_path_dic:
+                image_path_dic[file_name] = file_path
+            else:
+                print('名称重复', file_name)
     out_file = image_dir + '_UP.txt'
     write_m(out_file, res_ll)
     zip_file, zip_name = FileCompressionZip(out_file)
