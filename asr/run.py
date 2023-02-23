@@ -19,12 +19,12 @@ cmd_install1 = 'python3 -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/s
 cmd_install2 = 'python -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/simple'
 baoname = 'soundfile'
 # minio config
-endpointText = 'http://192.168.6.248:7001'
-bucket_name = 'magicdatacloud'
+endpointText = ''
+bucket_name = ''
 minio_conf = {
-        'endpoint': '192.168.6.248:7001',
-        'access_key': 'minioadmin',
-        'secret_key': 'Magic@123',
+        'endpoint': '',
+        'access_key': '',
+        'secret_key': '',
         'secure': False
 }
 
