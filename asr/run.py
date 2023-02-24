@@ -16,28 +16,17 @@ from collections import OrderedDict
 
 err_ll = []
 cmd_install1 = 'python3 -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/simple'
-cmd_install2 = 'python -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/simple'
-baoname = 'soundfile'
+cmd_install2 = 'python3 -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/simple'
+# baoname = 'soundfile'
 # minio config
 endpointText = ''
 bucket_name = ''
 minio_conf = {
-        'endpoint': '',
-        'access_key': '',
-        'secret_key': '',
-        'secure': False
+    'endpoint': '',
+    'access_key': '',
+    'secret_key': '',
+    'secure': False
 }
-
-try:
-    import soundfile
-except:
-    os.system(cmd_install1.format(baoname))
-    try:
-        import soundfile
-    except:
-        os.system(cmd_install2.format(baoname))
-        import soundfile
-
 
 minioname = 'minio'
 try:
@@ -212,9 +201,11 @@ class waveReadTime:
             try:
                 if size_ < 2000:
                     file_p += 1
-                sample_data, sample_rate = soundfile.read(file_p, dtype=None)
-                data_len = len(sample_data)
-                long_ = data_len / sample_rate
+                # sample_data, sample_rate = soundfile.read(file_p, dtype=None)
+                # data_len = len(sample_data)
+                # long_ = data_len / sample_rate
+                a = wave.open(file_p)
+                long_ = a.getnframes() / a.getframerate()
             except Exception as e:
                 try:
                     popen = os.popen(u'sox {file_path} -n stat 2>&1'.format(file_path=file_p))
@@ -727,8 +718,20 @@ def deal_to_uppt_dic(dic_, is_data_none, wav_longdic, bq_type, url_dic):
         for wav_name, wav_dura in dic_.items():
             total_wav_long += wav_dura
             audio_url = url_dic[wav_name]
-            wav_single_dic = {'wav_name': os.path.splitext(wav_name)[0], 'wav_suf': 'wav', "length_time": wav_dura,
-                              "path": audio_url, 'data': []}
+            wav_single_dic = {
+                'wav_name': os.path.splitext(wav_name)[0],
+                'wav_suf': 'wav',
+                "length_time": wav_dura,
+                "path": audio_url,
+                'data': [
+                    {
+                        "text": "",
+                        "start_time": 0,
+                        "end_time": wav_dura
+                    }
+                ],
+                "global": []
+            }
             add_k_v_to_dic(uppt_dic, wav_name, wav_single_dic)
     else:
         for wav_name, txt_l in dic_.items():
@@ -759,9 +762,14 @@ def deal_to_uppt_dic(dic_, is_data_none, wav_longdic, bq_type, url_dic):
                 data_l.append(child_dic)
             delhouzhuiwav_name = path.splitext(wav_name)[0]
             audio_url = url_dic[wav_name]
-            wav_single_dic = {"wav_name": delhouzhuiwav_name, "wav_suf": 'wav',
-                              "length_time": float(format_num(wav_dura)),
-                              "path": audio_url, "data": data_l}
+            wav_single_dic = {
+                "wav_name": delhouzhuiwav_name,
+                "wav_suf": 'wav',
+                "length_time": float(format_num(wav_dura)),
+                "path": audio_url,
+                "data": data_l,
+                "global": []
+            }
             add_k_v_to_dic(uppt_dic, wav_name, wav_single_dic)
     return uppt_dic
 
@@ -1079,6 +1087,10 @@ def upload_file_minio(file_path, object_dir):
 
 
 if __name__ == '__main__':
+    # file_path = r"Q:\liuhao\wav_decode.txt"
+    # object_dir = '测试沐露'
+    # print(upload_file_minio(file_path, object_dir))
+    # exit(0)
     total_valid_long = 0
     total_wav_long = 0
     argvs_l = get_argvs()
