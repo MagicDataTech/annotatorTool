@@ -723,13 +723,7 @@ def deal_to_uppt_dic(dic_, is_data_none, wav_longdic, bq_type, url_dic):
                 'wav_suf': 'wav',
                 "length_time": wav_dura,
                 "path": audio_url,
-                'data': [
-                    {
-                        "text": "",
-                        "start_time": 0,
-                        "end_time": wav_dura
-                    }
-                ],
+                "data": [],
                 "global": []
             }
             add_k_v_to_dic(uppt_dic, wav_name, wav_single_dic)
@@ -884,6 +878,8 @@ def wav_to_ogg_func(wav_path_d, ogg_dir, oss_path):
 
 
 def uppt_main_func(argvs_l):
+    print("----------")
+    print(argvs_l)
     wav_dir, seg_file, oss_path, base_url, time_i, text_i, is_data_none, bq_type, text_dir, is_uposs = argvs_l
     out_file = path.join(path.dirname(seg_file), '{}_uppt.txt'.format(path.basename(seg_file).replace(".txt", '')))
     wav_longdic, wav_path_d = get_all_wavlong_dic(wav_dir)

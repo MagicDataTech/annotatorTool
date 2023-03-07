@@ -22,7 +22,8 @@ minio_conf = {
 ```
 ## 使用说明
 ```shell
-python3 run.py 本地音频路径, minio存储路径
+python3 run.py 本地音频路径, minio存储路径  --- 带着时间点
+python3 runNoTime.py 本地音频路径, minio存储路径  --- 不带时间点
 ```
 
 ## 参数说明
