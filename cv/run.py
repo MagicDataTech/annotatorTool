@@ -9,8 +9,16 @@ cmd_install1 = 'python3 -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/s
 cmd_install2 = 'python -m pip install {} -i https://pypi.tuna.tsinghua.edu.cn/simple'
 minioname = 'minio'
 endpointText = ""
+# 存储桶名称
 bucket_name = ''
-minio_conf = {}
+# minio配置
+minio_conf = {
+    'endpoint': '',
+    'access_key': '',
+    'secret_key': '',
+    # 如开启 https 为 True
+    'secure': False
+}
 
 try:
     import minio
@@ -477,18 +485,6 @@ def upload_file_minio(file_path, object_dir):
 
 if __name__ == '__main__':
     # {'.jpg', 'png', 'jpeg'} 注意：目前只处理这三种格式图片
-    # 访问地址
-    endpointText = ""
-    # 存储桶名称
-    bucket_name = ''
-    # minio配置
-    minio_conf = {
-        'endpoint': '',
-        'access_key': '',
-        'secret_key': '',
-        # 如开启 https 为 True
-        'secure': False
-    }
     image_dir, oss_path, base_url, is_uposs = get_argvs()
     main_func(image_dir, oss_path, base_url, is_uposs)
     print("End Done.")

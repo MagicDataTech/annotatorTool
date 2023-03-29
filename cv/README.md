@@ -22,7 +22,7 @@ minio_conf = {
 ```
 ## 使用说明
 ```shell
-python3 run.py 本地图片路径, minio存储路径
+python3 run.py 本地图片路径 minio存储路径
 ```
 
 ## 参数说明
