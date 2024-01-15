@@ -1,2 +1,6 @@
 .idea
 .venv
+./config.ini
+text
+export
+config.ini

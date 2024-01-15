@@ -1,0 +1,11 @@
+[APP]
+# minio 地址
+ENDPOINT_TEXT = http://192.168.4.16:7001
+ENDPOINT = 192.168.4.16:7001
+BUCKET_NAME = magicdatacloud
+ACCESS_KEY = 账号
+SECRET_KEY = 密码
+# https 为 true 否则为 false
+SECURE = False
+# 线程数量
+MAX_WORKERS = 100

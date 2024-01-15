@@ -12,14 +12,14 @@ from multiprocessing import Pool, Manager
 from collections import OrderedDict
 import os.path as path
 
-endpointText = ""
+endpointText = "http://192.168.4.16:7001"
 # 存储桶名称
-bucket_name = ''
+bucket_name = 'magicdatacloud'
 # minio配置
 minio_conf = {
-    'endpoint': '',
-    'access_key': '',
-    'secret_key': '',
+    'endpoint': '192.168.4.16:7001',
+    'access_key': '账号',
+    'secret_key': '密码',
     # 如开启 https 为 True
     'secure': False
 }
@@ -325,7 +325,7 @@ def write_m(file_p, ll: list):
     :param ll: 列表
     :return:
     """
-    with open(file_p, 'w', encoding='utf-8')as fall:
+    with open(file_p, 'w', encoding='utf-8') as fall:
         fall.write(''.join(ll))
 
 
@@ -465,7 +465,7 @@ def get_every_img_dir_dic(input_img_dir):
     :param input_img_dir:
     :return:
     """
-    ssuffix_set = {'.jpg', '.jpeg', '.png'}
+    ssuffix_set = {'.jpg', '.jpeg', '.png', '.JPG'}
     for root, dirs, files in os.walk(input_img_dir):
         # print(root, len(files), files)
         img_dir_dic = {}
@@ -490,7 +490,7 @@ def get_res_ll_code0(image_dir, img_info_dic):
     :return:
     """
     res_ll = []
-    file_path_dic = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png"})
+    file_path_dic = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png",".JPG"})
     # file_path_dic = get_file_path_func(image_dir, '')
     for file_name, file_path in file_path_dic:
         # base_n, suffix_ = os.path.splitext(file_name)
@@ -565,7 +565,7 @@ def get_res_ll_code2(image_dir, img_info_dic, bao_num):
     :return:
     """
     res_ll = []
-    file_path_dic0 = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png"})
+    file_path_dic0 = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png", ".JPG"})
     # file_path_dic = get_file_path_func(image_dir, '')
     file_path_dic = {}
     for file_name, file_path in file_path_dic0:
@@ -615,10 +615,12 @@ def get_res_ll_code3(image_dir, img_info_dic, bao_num, v2_base_url):
     :return:
     """
     res_ll = []
-    file_path_dic0 = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png"})
+    file_path_dic0 = get_file_yield_func(image_dir, end_={".jpeg", ".jpg", ".png",".JPG"})
     # file_path_dic = get_file_path_func(image_dir, '')
     file_path_dic = {}
     for file_name, file_path in file_path_dic0:
+        print("000000", file_name,file_path)
+
         if file_name not in file_path_dic:
             file_path_dic[file_name] = file_path
         else:
@@ -658,6 +660,7 @@ def get_res_ll_code3(image_dir, img_info_dic, bao_num, v2_base_url):
 
 def main_func(image_dir, oss_path, base_url, is_uposs, code_, bao_num, v2_base_url):
     img_info_dic = get_wav_duration(image_dir, img=True, is_log=True)
+    print("----------",code_)
     if code_ == '0':
         res_ll, file_path_dic = get_res_ll_code0(image_dir, img_info_dic)
     elif code_ == '1':
@@ -770,8 +773,9 @@ def get_argvs():
         base_url += '/'
     if not os.path.exists(image_dir):
         exit('输入路径不存在：{}'.format(image_dir))
-    v2_base_url = '/'.join(base_url.split('/')[3:])
+    v2_base_url = '/'.join(base_url.split('/')[4:])
     bao_num = 1
+    print("-----")
     print(base_url)
     print(v2_base_url)
     return [image_dir, oss_path, base_url, is_uposs, code_, bao_num, v2_base_url]
