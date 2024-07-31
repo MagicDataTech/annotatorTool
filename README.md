@@ -14,6 +14,13 @@ config.ini.exp 重命名为 config.ini，并且修改为正确的minio 配置
 73_15369453241711678531429user Reference Text: ce 
 ```
 
+## 使用方式
+```shell
+conda create -n annotatorTool -y python=3.8
+conda activate annotatorTool
+pip install -r requirements.txt
+```
+
 ``` 
  asr 带参考文本使用教程
  python asr/asrReferenceText.py 音频本地路径 参考文本路径
