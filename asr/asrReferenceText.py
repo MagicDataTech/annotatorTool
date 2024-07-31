@@ -2,14 +2,13 @@ import concurrent.futures
 import json
 import os
 import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import traceback
 import wave
 import zipfile
 from utils import storage
 from tqdm import tqdm
-
 from utils.config import config
-
 
 def get_argv_s():
     argv_s = sys.argv[1:]
@@ -44,7 +43,7 @@ def upload_reference(reference_map, oss_dir_reference, wav_name):
 
 
 def upload_file(wav_dir, reference_map):
-    export_path = "../export"
+    export_path = "./export"
     if not os.path.exists(export_path):
         os.makedirs(export_path, exist_ok=True)
     oss_dir = os.path.join("file/audio", wav_dir.split("/")[-1])
