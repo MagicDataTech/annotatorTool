@@ -38,7 +38,7 @@ def upload_reference(reference_map, oss_dir_reference, wav_name):
     reference = reference_map.get(wav_name, [])
     if reference:
         # 生成文件，上传minio
-        reference_url = storage.upload_string_to_minio(oss_dir_reference, "\n".join(reference))
+        reference_url = storage.upload_string_to_minio(oss_dir_reference, "\n\n".join(reference))
     return reference_url
 
 
@@ -63,6 +63,9 @@ def upload_file(wav_dir, reference_map):
             with tqdm(total=len(file_names)) as pbar:  # 创建进度条
                 futures = []
                 for wav_name in file_names:
+                    # 检测文件名为wave
+                    if not wav_name.endswith(".wav"):
+                        continue
                     futures.append(
                         executor.submit(get_wave_format, wav_name, oss_dir_audio, oss_dir_reference, reference_map))
 
@@ -99,7 +102,7 @@ def get_wave_format(wav_name, oss_dir_audio, oss_dir_reference, reference_map):
             'wav_suf': 'wav',
             "length_time": get_wav_duration(wav_path),
             "object_key": oss_dir_audio_name,
-            "ref_link": ref_link,
+            "ref_link": oss_dir_reference_name,
             "path": oss_url,
             "data": [],
             "global": []
@@ -149,9 +152,9 @@ def generate_reference_map(text):
 
 if __name__ == '__main__':
     # 获取参数
-    # wav_dir, reference_text = get_argv_s()
-    wav_dir, reference_text = ["/Users/magicdata/Documents/fuzz/平台客户/6.0平台数据/测试脚本",
-                               "/Users/magicdata/Documents/fuzz/code/python/annotatorTool/text/语音数据.txt"]
+    wav_dir, reference_text = get_argv_s()
+    # wav_dir, reference_text = ["/Users/magicdata/Documents/fuzz/平台客户/6.0平台数据/test_audio",
+    #                            "/Users/magicdata/Documents/fuzz/code/python/annotatorTool/text/语音数据.txt"]
     # 读取参考文本
     reference_map = get_reference_text(reference_text)
     # 上传数据
